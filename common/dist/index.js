@@ -1,0 +1,28 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.updateBlog = exports.createBlog = exports.signinInput = exports.signupInput = void 0;
+const zod_1 = __importDefault(require("zod"));
+// ===================== signup type inference =======================
+exports.signupInput = zod_1.default.object({
+    name: zod_1.default.string(),
+    email: zod_1.default.string().email(),
+    password: zod_1.default.string().min(6)
+});
+// ======================= signin type inference ============================
+exports.signinInput = zod_1.default.object({
+    email: zod_1.default.string().email(),
+    password: zod_1.default.string().min(6)
+});
+// ===================== signup type inference =======================
+exports.createBlog = zod_1.default.object({
+    title: zod_1.default.string(),
+    content: zod_1.default.string()
+});
+// ======================= signin type inference ============================
+exports.updateBlog = zod_1.default.object({
+    title: zod_1.default.string().optional(),
+    content: zod_1.default.string().optional(),
+});
