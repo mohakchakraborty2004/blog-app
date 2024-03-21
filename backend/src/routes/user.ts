@@ -54,9 +54,7 @@ userRouter.post('/signup', async (c) => {
   
       console.log(token)
   
-      return c.text('signedup!')
-  
-  
+      return c.text(token)
   
     } catch (error) {
       console.log(error)
