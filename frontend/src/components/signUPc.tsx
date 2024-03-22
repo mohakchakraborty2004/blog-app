@@ -49,11 +49,18 @@ export function AuthSignUp() {
           }} />
 
           <button className="bg-black text-white font-semibold p-x-4 p-2 rounded-[15px]" onClick={ async () => {
+          try {
             const response = await axios.post(`${DATABASE_URL}/api/v1/user/signup` , postInput )
             const jwt = await response.data
             //console.log(jwt)
             localStorage.setItem("token" , jwt)
-            Navigate('/blogs')
+             Navigate('/blogs')
+          } catch (error) {
+            console.log(error)
+          }
+          
+       
+          
           }}>
             Sign Up
           </button>

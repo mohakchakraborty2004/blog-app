@@ -30,6 +30,7 @@ userRouter.post('/signup', async (c) => {
       const {success} = signupInput.safeParse(body)
       
       if(!success){
+        c.status(411)
         return c.json ({
           msg : "wrong input types , please check again"
         })
@@ -45,10 +46,7 @@ userRouter.post('/signup', async (c) => {
    
       // generating jwt
       const userID = user.id
-  
-    
       const secret = "mysecretkey"
-  
       const token = await sign({id : userID}, secret)
       // generated the jwt 
   
@@ -58,6 +56,7 @@ userRouter.post('/signup', async (c) => {
   
     } catch (error) {
       console.log(error)
+      c.status(401)
       return c.text('invalid inputs')
     }
   
@@ -77,6 +76,7 @@ userRouter.post('/signup', async (c) => {
     const {success} = signinInput.safeParse(body)
     
     if(!success){
+      c.status(411)
       return c.json ({
         msg : "wrong input types , please check again"
       })
@@ -90,21 +90,29 @@ userRouter.post('/signup', async (c) => {
       const password = body.password
   
       if(!user){
+        c.status(400)
         return c.text('user not found')
       }
+
+
        const id = user?.id
+
+
       if(user?.password == password){
-        const secret = "mysecretkey"
-        const token = await sign({id : id} , secret)
-        console.log(token)
+          const secret = "mysecretkey"
+          const token = await sign({id : id} , secret)
+       
+          return c.text(token)
       } else {
+        c.status(403)
         return c.text('incorrect pw')
       }
       
-      return c.text('loggedin')
+      
   
   
     } catch (error) {
+      c.status(400)
       console.log (error)
     }
   
