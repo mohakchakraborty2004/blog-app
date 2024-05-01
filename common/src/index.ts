@@ -6,7 +6,7 @@ import z, { TypeOf } from "zod";
 export const signupInput = z.object({
     name : z.string(),
     email : z.string().email(), 
-    password : z.string().min(6)
+    password : z.number().min(6)
 })
 
 export type SignupInput = z.infer<typeof signupInput>

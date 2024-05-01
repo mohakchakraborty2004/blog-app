@@ -50,7 +50,7 @@ blogRouter.use('/*' , async (c, next) => {
   
 // ------------------------ creating a blog ---------------------------------------
   
-  blogRouter.post('/', async (c) => {
+  blogRouter.post('/create', async (c) => {
     const prisma = new PrismaClient({
         datasourceUrl: c.env.DATABASE_URL
       }).$extends(withAccelerate())
@@ -151,6 +151,15 @@ blogRouter.use('/*' , async (c, next) => {
     const getBlog = await prisma.blog.findUnique({
         where : {
             id : id
+        },
+        select : {
+          title : true,
+          content : true,
+          author: {
+            select : {
+              name : true
+            }
+          }
         }  
     })
     console.log(getBlog)
@@ -180,7 +189,20 @@ blogRouter.use('/*' , async (c, next) => {
     
 
 try {
-  const blogs = await prisma.blog.findMany()
+  const blogs = await prisma.blog.findMany({
+    select : {
+      title : true, 
+      content : true ,
+      id : true ,
+      author : {
+        select : {
+          name : true 
+        }
+      }
+    }
+  }
+ 
+  )
 
     return c.json({
      blogs
@@ -193,3 +215,7 @@ try {
 
     
   })
+
+
+
+  // c807f68f-2e81-4a2d-b20f-55ba4dfa3767

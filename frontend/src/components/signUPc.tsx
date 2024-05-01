@@ -16,7 +16,6 @@ export function AuthSignUp() {
     email : "",
     password : ""
    } )
-
   const Navigate = useNavigate()
 
   return (
